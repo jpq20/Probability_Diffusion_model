@@ -37,7 +37,7 @@
 
 * 对E2进行推导：
 
-  ![image-20221012213721782](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012213721782.png)
+  ![images/image-20221012213721782]
 
   
 
