@@ -71,7 +71,7 @@
 
 分析ELBO
 
-![image-20221012215329383](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012215329383.png)
+![image-20221012215329383](/images/image-20221012215329383.png)
 
 * 编码器：$q_\phi(z|x)$，中间步骤，输入->latent
 * 解码器：$p_\theta(x|z)$，latent -> 观测x
@@ -86,11 +86,11 @@ solution：
 
 * VAE的编码器被选为具有对角协方差的多元高斯模型，先验通常选为标准多元高斯：
 
-  ![image-20221012221835490](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012221835490.png)
+  ![image-20221012221835490](/images/image-20221012221835490.png)
 
 * 基于以上公式，我们可以解析计算ELBO的KL散度项，用蒙特卡洛方法逼近重建项：
 
-  ![image-20221012221936407](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012221936407.png)
+  ![image-20221012221936407](/images/image-20221012221936407.png)
 
 * latents$\{z^{(l)}\}_{l=1}^L$：对于数据集中每一个观察值x，由$q_\phi(z|x)$抽样得到
 
@@ -108,7 +108,7 @@ solution：
 
 * VAE中：
 
-  ![image-20221012222927507](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012222927507.png)
+  ![image-20221012222927507](/images/image-20221012222927507.png)
 
 * 可以通过计算关于$\phi$的梯度，优化$\mu_\phi(x)$和$\sigma_\phi(x)$ 
 
@@ -132,15 +132,15 @@ solution：
 
 * 整个模型可视作VAE的堆叠、递归
 
-  ![image-20221012224128961](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012224128961.png)
+  ![image-20221012224128961](/images/image-20221012224128961.png)
 
 * ELBO:
 
-  ![image-20221012224147927](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012224147927.png)
+  ![image-20221012224147927](/images/image-20221012224147927.png)
 
 * 代入：
 
-  ![image-20221012224215075](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012224215075.png)
+  ![image-20221012224215075](/images/image-20221012224215075.png)
 
 ## Variational Diffusion Models（VDM）
 
@@ -152,15 +152,15 @@ solution：
 
 * 分析：
 
-  1. ![image-20221012224749131](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012224749131.png)
+  1. ![image-20221012224749131](/images/image-20221012224749131.png)
 
-  2. **与MHVAE不同的是：**latent编码器的结构在每个timestep上不学习，被固定为线性高斯模型，均值方差均可设置为超参数或可以学习的参数，我们如此设置其参数：![image-20221012225003445](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012225003445.png)，系数形式的选择可以使latent变量的方差保持在相似的尺度上。（允许不同的参数化、$\alpha_t$是可学习的，随t变化)：
+  2. **与MHVAE不同的是：**latent编码器的结构在每个timestep上不学习，被固定为线性高斯模型，均值方差均可设置为超参数或可以学习的参数，我们如此设置其参数：![image-20221012225003445](/images/image-20221012225003445.png)，系数形式的选择可以使latent变量的方差保持在相似的尺度上。（允许不同的参数化、$\alpha_t$是可学习的，随t变化)：
 
-     ![image-20221012225227918](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012225227918.png)
+     ![image-20221012225227918](/images/image-20221012225227918.png)
 
   3. $\alpha_t$随时间演化按一个固定的或可学习的时间结构进行，使最终的latent变量分布为标准高斯,可如下改写解码器：
 
-     ![image-20221012225515656](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012225515656.png)
+     ![image-20221012225515656](/images/image-20221012225515656.png)
 
      现在编码器q不再依赖于参数，只需要关注$p_\theta$，来模拟新数据，采样只需要从p(xT中采样高斯噪声->运行$p_\theta$得到新的x0)
 
@@ -168,7 +168,7 @@ solution：
 
      可以通过最大化ELBO优化：
 
-     ![image-20221012225754465](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012225754465.png)
+     ![image-20221012225754465](/images/image-20221012225754465.png)
 
      1. reconstruction term:给定第一步latent，预测原始数据的对数相似度，可以以与VAE相似的方法优化；
 
@@ -176,7 +176,7 @@ solution：
 
      3. consistency term:使xt处的分布一致，无论是前向还是后向过程，denoising 和 noising应相互匹配 ，最小化when$p_\theta(x_t|x_{t+1})$匹配q所代表的高斯分布:
 
-        ![image-20221012230234678](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012230234678.png)
+        ![image-20221012230234678](/images/image-20221012230234678.png)
 
 ---
 
@@ -188,11 +188,11 @@ solution：
 
 * 由贝叶斯：
 
-  ![image-20221012230622570](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012230622570.png)
+  ![image-20221012230622570](/images/image-20221012230622570.png)
 
 * 可推导出新的ELBO：
 
-  ![image-20221012230641321](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012230641321.png)
+  ![image-20221012230641321](/images/image-20221012230641321.png)
 
 * 低方差
 
@@ -210,25 +210,25 @@ solution：
 
 * 由贝叶斯：
 
-  ![image-20221012231427106](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012231427106.png)
+  ![image-20221012231427106](/images/image-20221012231427106.png)
 
-* 已知：![image-20221012231453753](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012231453753.png)
+* 已知：![image-20221012231453753](/images/image-20221012231453753.png)
 
 * 剩余问题：贝叶斯导出项中其余两项的形式
 
-  * 利用编码器transition是线性高斯模型，在重参数化技巧下，![image-20221012231730472](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012231730472.png)可以写作：
+  * 利用编码器transition是线性高斯模型，在重参数化技巧下，![image-20221012231730472](/images/image-20221012231730472.png)可以写作：
 
-    ![image-20221012231757041](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012231757041.png)
+    ![image-20221012231757041](/images/image-20221012231757041.png)
 
-  * 设：![image-20221012232152806](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012232152806.png)
+  * 设：![image-20221012232152806](/images/image-20221012232152806.png)
 
   * 于是就可以反复应用上述公式递归推导结果：
 
-    ![image-20221012231900719](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012231900719.png)
+    ![image-20221012231900719](/images/image-20221012231900719.png)
 
 * 于是就可以利用上述结果推导贝叶斯导出式：
 
-  ![image-20221012232038848](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012232038848.png)
+  ![image-20221012232038848](/images/image-20221012232038848.png)
 
 * 为使$p_\theta$尽可能接近q，我们将p也建模为高斯分布
 
@@ -238,19 +238,19 @@ solution：
 
 * 优化问题简化为最小化两个分布的均值差：
 
-  ![image-20221012232639639](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012232639639.png)
+  ![image-20221012232639639](/images/image-20221012232639639.png)
 
 * $\mu_\theta$可建模如下：
 
-  ![image-20221012232746539](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012232746539.png)
+  ![image-20221012232746539](/images/image-20221012232746539.png)
 
 * 优化问题可简化为：
 
-  ![image-20221012232849749](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012232849749.png)
+  ![image-20221012232849749](/images/image-20221012232849749.png)
 
 * 优化问题可以归结为学习一个神经网络，从任意噪声版本中预测最原始的ground truth图像
 
-* 在所有时间步上最小化期望来最小化ELBO求和项：![image-20221012233035672](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012233035672.png)
+* 在所有时间步上最小化期望来最小化ELBO求和项：![image-20221012233035672](/images/image-20221012233035672.png)
 
 ---
 
@@ -262,69 +262,69 @@ solution：
 
 * 将之前固定的方差项代入上一小节得到的单步优化式中可得：
 
-  原式![image-20221012233448047](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012233448047.png)
+  原式![image-20221012233448047](/images/image-20221012233448047.png)
 
 * 引入了信噪比：$SNR = \frac{\mu^2}{\sigma^2}$
 
-* 已知：q(xt|x0)有如下高斯形式：![image-20221012233922443](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012233922443.png)则有：$SNR(t) = \frac{\overline{\alpha^t}}{1-{\overline{\alpha^t}}}$
+* 已知：q(xt|x0)有如下高斯形式：![image-20221012233922443](/images/image-20221012233922443.png)则有：$SNR(t) = \frac{\overline{\alpha^t}}{1-{\overline{\alpha^t}}}$
 
-* ![image-20221012233827877](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012233827877.png)
+* ![image-20221012233827877](/images/image-20221012233827877.png)
 
 * 扩散模型中要求信噪比随t增大而单调减小
 
 * 用神经网络参数化每个时间步的信噪比，并与扩散模型联合学习：
 
-  ![image-20221012234110180](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012234110180.png)
+  ![image-20221012234110180](/images/image-20221012234110180.png)
 
 * 可进一步推导：(这些项对计算是必要的：如使用重参数化技巧从输入创建任意噪声时)
 
-  ![image-20221012234219860](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012234219860.png)
+  ![image-20221012234219860](/images/image-20221012234219860.png)
 
 ## Three Equivalent Interpretations
 
 1. 之前讨论的 xt -> x0
 
-2. * rearrange: q(xt|x0)得到：![image-20221012234527629](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012234527629.png)
+2. * rearrange: q(xt|x0)得到：![image-20221012234527629](/images/image-20221012234527629.png)
 
-   * 代入之前推导:![image-20221012232746539](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012232746539.png)
+   * 代入之前推导:![image-20221012232746539](/images/image-20221012232746539.png)
 
      得到：
 
-     ![image-20221012234701379](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012234701379.png)
+     ![image-20221012234701379](/images/image-20221012234701379.png)
 
    * 可以如下设置$\mu_\theta$如下：
 
-     ![image-20221012234746694](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012234746694.png)
+     ![image-20221012234746694](/images/image-20221012234746694.png)
 
    * 优化变为：
 
-     ![image-20221012234817796](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012234817796.png)
+     ![image-20221012234817796](/images/image-20221012234817796.png)
 
    * **综上，通过预测原始图像x0学习一个VDM 等效于 学习预测noise**
 
 3. * Tweedie's Formula：对高斯分布z~N(z;uz,sigmaz)有：
 
-     ![image-20221012235023420](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012235023420.png)
+     ![image-20221012235023420](/images/image-20221012235023420.png)
 
-   * 已知：![image-20221012235044146](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012235044146.png)
+   * 已知：![image-20221012235044146](/images/image-20221012235044146.png)
 
    * 有：
 
-     ![image-20221012235102856](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012235102856.png)
+     ![image-20221012235102856](/images/image-20221012235102856.png)
 
-   * 因为：对产生xt真正的mean的最佳估计是：![image-20221012235534349](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012235534349.png),所以有;
+   * 因为：对产生xt真正的mean的最佳估计是：![image-20221012235534349](/images/image-20221012235534349.png),所以有;
 
-     ![image-20221012235554817](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012235554817.png)
+     ![image-20221012235554817](/images/image-20221012235554817.png)
 
-   * 重新代入$\mu_q$有：![image-20221012235629326](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221012235629326.png)
+   * 重新代入$\mu_q$有：![image-20221012235629326](/images/image-20221012235629326.png)
 
    * 如此一来，就可以将优化均值设置为：
    
-     ![image-20221015161420688](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015161420688.png)
+     ![image-20221015161420688](/images/image-20221015161420688.png)
    
    * 优化问题转化为：
    
-     ![image-20221015161509760](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015161509760.png)
+     ![image-20221015161509760](/images/image-20221015161509760.png)
    
    * 此处$s_\theta$是一个神经网络，学习$\bigtriangledown_{x_t}log p(x_t)$,该式表示x_t在数据空间中的梯度
    
@@ -344,7 +344,7 @@ $$
 
 
 
-* 任意灵活的概率分布可写作：![image-20221015162942370](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015162942370.png)
+* 任意灵活的概率分布可写作：![image-20221015162942370](/images/image-20221015162942370.png)
 
 * $f_\theta$任意、灵活，参数化的方程称为能量函数，通常由神经网络建模
 
@@ -356,13 +356,13 @@ $$
 
   *solution：一种避免建模归一化常数的方法是——用神经网络$s_\theta$学习分布p(x)的score function*
 
-* 分析：![image-20221015163417727](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015163417727.png)
+* 分析：![image-20221015163417727](/images/image-20221015163417727.png)
 
 * 神经网络$s_\theta$可以自由地表示为一个神经网络而不涉及归一化常数
 
 * 优化：最小化
 
-  ![image-20221015164219939](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015164219939.png)
+  ![image-20221015164219939](/images/image-20221015164219939.png)
 
 * score function本质上描述了为进一步增加似然程度，在数据空间中应移动的方向
 
@@ -370,11 +370,11 @@ $$
 
 * score function在x的整个数据空间定义了一个指向modes的向量场。
 
-* ![image-20221015163823224](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015163823224.png)
+* ![image-20221015163823224](/images/image-20221015163823224.png)
 
 * 通过学习真实数据分布的score function，我们从同一空间的任意一点开始，沿着评分迭代生成样本，直到到达一个mode——这个过程被称为郎之万动力学，数学上描述为：
 
-  ![image-20221015163952598](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015163952598.png)
+  ![image-20221015163952598](/images/image-20221015163952598.png)
 
 * x0：从一个先验分布中任意采样得到
 
@@ -397,7 +397,7 @@ Score-based Generative：学习将一个分布表示为score function并使用�
   2. 低密度区域
   3. may not mix，混合系数会丢失
 * 解决：在数据中加入多级高斯噪声
-* ![image-20221015165054568](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015165054568.png)
+* ![image-20221015165054568](/images/image-20221015165054568.png)
 * 退火方法：初始化是从某个固定的先验中随机选取，后续的每个采样点都从前面模拟的最终样本开始。
 * 噪声水平随着t不断下降，随着时间步长减小，样本最终收敛到真模式
 
@@ -409,9 +409,9 @@ Score-based Generative：学习将一个分布表示为score function并使用�
 
 * 之前的推导专注于建模p(x)
 * 此处开始关注p(x|y)：这使我们能够显式地控制通过条件信息y生成数据
-* ![image-20221015165621208](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015165621208.png)
+* ![image-20221015165621208](/images/image-20221015165621208.png)
 * y可以是一个文本编码或一个待重建的低像素图片，这个过程可以用如之前讨论的VDM一样训练:
-* ![image-20221015165813050](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015165813050.png)
+* ![image-20221015165813050](/images/image-20221015165813050.png)
 
 *问题：以这种方法训练的条件扩散模型可能会学会忽略或淡化任何给定的条件信息*
 
@@ -421,7 +421,7 @@ Score-based Generative：学习将一个分布表示为score function并使用�
 
 * 基于 score-based扩散模型地公式，通过贝叶斯进行推导：
 
-  ![image-20221015170230671](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015170230671.png)
+  ![image-20221015170230671](/images/image-20221015170230671.png)
 
 * 最终的结果可以解释为学习一个无条件的score function以及分类器p(y|xt)的对抗性梯度相结合
 
@@ -433,7 +433,7 @@ Score-based Generative：学习将一个分布表示为score function并使用�
 
 * 细粒度控制来鼓励或阻止模型考虑条件信息：
 
-  ![image-20221015170523205](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015170523205.png)
+  ![image-20221015170523205](/images/image-20221015170523205.png)
 
 ### Classifier-Free Guidance
 
@@ -443,7 +443,7 @@ Score-based Generative：学习将一个分布表示为score function并使用�
 
 * 对上一节公式重排代入可得：
 
-  ![image-20221015170709419](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20221015170709419.png)
+  ![image-20221015170709419](/images/image-20221015170709419.png)
 
 * $\gamma>1$时，进一步明确使用条件，减少多样性，精确匹配
 
