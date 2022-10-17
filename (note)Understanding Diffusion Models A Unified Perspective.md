@@ -37,7 +37,7 @@
 
 * 对E2进行推导：
 
-  !(images\image-20221012213721782.png)
+  ![image1](images\image-20221012213721782.png)
 
   
 
